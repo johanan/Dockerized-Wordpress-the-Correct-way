@@ -1,0 +1,1 @@
+{{ newuser }} ALL=(ALL:ALL) NOPASSWD:ALL

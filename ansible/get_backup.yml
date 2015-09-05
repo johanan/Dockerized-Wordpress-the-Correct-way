@@ -1,0 +1,8 @@
+- hosts: all
+  remote_user: jjohanan
+  sudo: yes
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - {include: tasks/docker_backups.yml }

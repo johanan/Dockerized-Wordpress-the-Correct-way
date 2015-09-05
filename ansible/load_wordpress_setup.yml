@@ -1,0 +1,29 @@
+- hosts: all
+  remote_user: jjohanan
+  sudo: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - docker
+    - swap
+    - { role: docker_build, service: mysql, tags: [], exec_files: ['backup.sh', 'load_db.sh'] }
+    - { role: docker_build, service: php, tags: [], exec_files: [] }
+    - { role: docker_build, service: backend, tags: ['backend'], exec_files: ['site-normal', 'site-upgrade', 'site-upgrade', 'start-nginx.sh'] }
+    - wordpress
+    - load_wordpress
+  tasks:
+    - { include: tasks/docker-compose_rebuild.yml, service: backend, tags: ['backend'] }
+    - { include: tasks/docker-compose_rebuild.yml, service: php, tags: [] }
+    - { include: tasks/docker-compose_rebuild.yml, service: mysql, tags: [] }
+
+    - name: bring it all up
+      command: chdir={{ work_dir }} docker-compose up -d --no-recreate
+
+    - name: make sure mysql comes up
+      pause: seconds=15
+
+    - name: Load SQL backup
+      command: chdir={{ work_dir }} {{ work_dir }}/move_sql_backup
+
+    - name: Load blog backup database
+      shell: docker exec $(docker-compose -f {{ work_dir }}/docker-compose.yml ps -q mysql) /load_db.sh

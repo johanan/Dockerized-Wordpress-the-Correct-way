@@ -1,0 +1,11 @@
+---
+  - name: Create {{ service }} directory
+    file: path={{ work_dir }} state=directory owner=root group=root
+
+  - name: Load {{ service }}
+    copy: src={{ service }} dest={{ work_dir }}
+
+  - name: Make files executable
+    file: path={{ work_dir }}/{{ service }}/{{ item }} mode=755
+    with_items:
+      - "{{ exec_files }}"

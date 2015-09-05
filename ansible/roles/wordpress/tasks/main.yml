@@ -1,0 +1,21 @@
+---
+  - name: Create Docker base directory
+    file: path={{ work_dir }} state=directory
+
+  - name: Create Wordpress base directory
+    file: path=/var/www/html/{{ site_name }} state=directory
+
+  - name: Copy docker-compose file
+    template: src=docker-compose.j2 dest={{ work_dir }}/docker-compose.yml
+
+  - name: Setup ufw
+    ufw: rule=allow port=80 proto=tcp
+
+  - name: Open up SSL ufw
+    ufw: rule=allow port=443 proto=tcp
+
+  - name: Create backup script
+    template: src=site-backup dest={{ work_dir }} mode=0755
+
+  - name: Create correct default.templ for nginx
+    template: src=default.templ.j2 dest={{ work_dir}}/backend/default.templ

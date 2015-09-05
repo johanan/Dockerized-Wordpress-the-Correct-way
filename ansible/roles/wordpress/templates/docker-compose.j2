@@ -1,0 +1,29 @@
+mysql:
+  build: ./mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD={{ lookup('env', 'MYSQL_ROOT_PASSWORD') }}
+    - MYSQL_USER={{ lookup('env', 'MYSQL_USER') }}
+    - MYSQL_PASSWORD={{ lookup('env', 'MYSQL_PASSWORD') }}
+    - MYSQL_DATABASE={{ lookup('env', 'MYSQL_DATABASE') }}
+  mem_limit: 128m
+
+data:
+  image: debian:wheezy
+  volumes:
+    - /var/www/html/{{ site_name }}:/var/www/html/{{ site_name}}
+
+php:
+  build: ./php
+  volumes_from:
+    - data
+  links:
+    - mysql:db
+
+backend:
+  build: ./backend
+  volumes_from:
+    - data
+  links:
+    - php:php
+  ports:
+    - "80:80"

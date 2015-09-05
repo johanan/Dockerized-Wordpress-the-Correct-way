@@ -1,0 +1,9 @@
+---
+  - name: Backup everything
+    command: "{{ work_dir }}/site-backup"
+
+  - name: Fetch the MySQL backup
+    fetch: src=/tmp/wp_backup.sql.tar.gz dest=./backups/ flat=yes
+
+  - name: Fetch Wordpress tarball
+    fetch: src=/tmp/site_backup.tar.gz dest=./backups/ flat=yes

@@ -1,0 +1,2 @@
+#!/bin/bash
+tar -cv wp_backup.sql | docker exec -i $(docker-compose -f {{ work_dir }}/docker-compose.yml ps -q mysql) tar x -C /tmp

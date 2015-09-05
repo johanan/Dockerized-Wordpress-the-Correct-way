@@ -1,0 +1,23 @@
+---
+  - name: Get salt values
+    uri: url=https://api.wordpress.org/secret-key/1.1/salt/ return_content=yes
+    register: wp_salt
+
+  - name: Set salts
+    set_fact:
+      salts: "{{ wp_salt.content }}"
+
+  - name: Get wordpress
+    get_url: url=https://wordpress.org/wordpress-{{ wordpress_version }}.tar.gz dest={{ work_dir }}/wordpress.tar.gz
+
+  - name: Unarchive wordpress
+    unarchive: src={{ work_dir }}/wordpress.tar.gz dest=/var/www/html/{{ site_name }} copy=no
+
+  - name: Remove wordpress zip
+    file: path={{ work_dir }}/wordpress.tar.gz state=absent
+
+  - name: Create a wp-config
+    template: src=wp-config.j2 dest=/var/www/html/{{ site_name }}/wordpress/wp-config.php
+
+  - name: Set permissions
+    file: path=/var/www/html/{{ site_name }}/wordpress/wp-content state=directory mode=0755 owner=www-data recurse=yes

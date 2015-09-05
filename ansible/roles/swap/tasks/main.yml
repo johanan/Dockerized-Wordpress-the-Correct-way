@@ -1,0 +1,20 @@
+---
+  - name: register swap var
+    stat: path=/mnt/swap
+    register: swap_file
+
+  - name: create the file to be used for swap
+    command: fallocate -l 512M /mnt/swap
+    when: swap_file.stat.exists == False
+
+  - name: format the file for swap
+    command: mkswap /mnt/swap
+    when: swap_file.stat.exists == False
+
+  - name: change swap file permissions
+    file: path=/mnt/swap owner=root group=root mode=0600
+    when: swap_file.stat.exists == False
+
+  - name: add the file to the system as a swap file
+    command: swapon /mnt/swap
+    when: swap_file.stat.exists == False

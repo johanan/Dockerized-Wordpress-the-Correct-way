@@ -1,0 +1,9 @@
+---
+  - name: Stop {{ service }}
+    command: chdir={{ work_dir }} docker-compose stop {{ service }}
+
+  - name: Remove {{ service }}
+    command: chdir={{ work_dir }} docker-compose rm --force {{ service }}
+
+  - name: Build {{ service }}
+    command: chdir={{ work_dir }} docker-compose build {{ service }}

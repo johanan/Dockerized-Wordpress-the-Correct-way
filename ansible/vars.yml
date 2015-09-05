@@ -1,0 +1,3 @@
+newuser: jjohanan
+work_dir: /var/lib/{{ site_name }}
+ssh_key: /Users/jjohanan/.ssh/id_rsa.pub

@@ -1,0 +1,18 @@
+---
+  - name: Add repo from Docker
+    shell: curl -sSL https://get.docker.com/ubuntu/ | sudo sh creates=/usr/bin/docker
+
+  - name: Install docker
+    apt: name=lxc-docker update-cache=yes
+
+  - name: get setuptools
+    apt: name=python-setuptools state=present
+
+  - name: make sure pip works
+    shell: easy_install -U pip creates=/usr/local/bin/pip
+
+  - name: install docker-py
+    pip: name=docker-py state=present
+
+  - name: install docker-compose
+    pip: name=docker-compose state=present
