@@ -8,7 +8,7 @@ mysql:
   mem_limit: 128m
 
 data:
-  image: debian:wheezy
+  image: debian:jessie
   volumes:
     - /var/www/html/{{ site_name }}:/var/www/html/{{ site_name}}
 
@@ -26,4 +26,13 @@ backend:
   links:
     - php:php
   ports:
+    - "8000:80"
+
+varnish:
+  build: ./varnish
+  environment:
+    CACHE_SIZE: 64m
+  ports:
     - "80:80"
+  links:
+    - backend:backend
