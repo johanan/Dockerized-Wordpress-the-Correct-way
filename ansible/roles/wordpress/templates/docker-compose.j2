@@ -8,10 +8,11 @@ mysql:
   mem_limit: 128m
 
 data:
-  image: debian:jessie
-  volumes:
-    - /var/www/html/{{ site_name }}:/var/www/html/{{ site_name}}
-
+  #image: debian:jessie
+  #volumes:
+  #  - /var/www/html/{{ site_name }}:/var/www/html/{{ site_name}}
+  build: ./data
+  
 php:
   build: ./php
   volumes_from:

@@ -1,5 +1,5 @@
 - hosts: all
-  remote_user: jjohanan
+  remote_user: "{{ newuser }}"
   sudo: yes
   vars_files:
     - vars.yml

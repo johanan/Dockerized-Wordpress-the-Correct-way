@@ -1,0 +1,2 @@
+#!/bin/bash
+docker exec $(docker-compose -f {{ work_dir }}/docker-compose.yml ps -q backend) /site-normal

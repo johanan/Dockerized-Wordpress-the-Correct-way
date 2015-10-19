@@ -1,5 +1,5 @@
 - hosts: all
-  remote_user: jjohanan
+  remote_user: "{{ newuser }}"
   sudo: yes
   vars_files:
     - vars.yml
@@ -13,10 +13,14 @@
     - wordpress
     - new_wordpress
   tasks:
+    - { include: tasks/docker-compose_rebuild.yml, service: data, tags: [] }
     - { include: tasks/docker-compose_rebuild.yml, service: varnish, tags: ['backend'] }
     - { include: tasks/docker-compose_rebuild.yml, service: backend, tags: ['backend'] }
     - { include: tasks/docker-compose_rebuild.yml, service: php, tags: [] }
     - { include: tasks/docker-compose_rebuild.yml, service: mysql, tags: [] }
+    #remove the workpress install not in the container
+    #bring up the containers and remove any unused containers
+    - { include: tasks/docker_up.yml }
 
-    - name: bring it all up
-      command: chdir={{ work_dir }} docker-compose up -d --no-recreate
+    - name: Set permissions in container
+      shell: "{{ work_dir }}/site-normal"

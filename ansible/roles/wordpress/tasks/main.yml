@@ -19,3 +19,9 @@
 
   - name: Create correct default.templ for nginx
     template: src=default.templ.j2 dest={{ work_dir}}/backend/default.templ
+
+  - name: Add site-upgrade
+    template: src=site-upgrade.j2 dest={{ work_dir}}/site-upgrade mode=755
+
+  - name: Add site-normal
+    template: src=site-normal.j2 dest={{ work_dir}}/site-normal mode=755
