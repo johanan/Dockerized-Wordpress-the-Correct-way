@@ -9,11 +9,13 @@
     - { role: docker_build, service: mysql, tags: [], exec_files: ['backup.sh', 'load_db.sh'] }
     - { role: docker_build, service: php, tags: [], exec_files: [] }
     - { role: docker_build, service: backend, tags: ['backend'], exec_files: ['site-normal', 'site-upgrade', 'site-upgrade', 'start-nginx.sh'] }
-    - { role: docker_build, service: varnish, tags: [], exec_files: [] }
+    - { role: docker_build, service: varnish, tags: [], exec_files: ['start-varnish.sh'] }
+    - { role: docker_build, service: frontend, tags: [], exec_files: ['start-nginx.sh'] }
     - wordpress
     - load_wordpress
   tasks:
     - { include: tasks/docker-compose_rebuild.yml, service: data, tags: [] }
+    - { include: tasks/docker-compose_rebuild.yml, service: frontend, tags: [] }
     - { include: tasks/docker-compose_rebuild.yml, service: varnish, tags: ['backend'] }
     - { include: tasks/docker-compose_rebuild.yml, service: backend, tags: ['backend'] }
     - { include: tasks/docker-compose_rebuild.yml, service: php, tags: [] }
