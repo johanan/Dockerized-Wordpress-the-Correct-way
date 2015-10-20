@@ -25,3 +25,6 @@
 
   - name: Add site-normal
     template: src=site-normal.j2 dest={{ work_dir}}/site-normal mode=755
+
+  - name: schedule backup to run weekly
+    cron: name="site backup" minute="0" hour="2" weekday="1" job="{{ work_dir }}/site-backup" user="root"

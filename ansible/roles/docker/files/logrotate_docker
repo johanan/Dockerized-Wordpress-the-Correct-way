@@ -1,0 +1,5 @@
+/var/lib/docker/containers/*/*-json.log {
+  size 5120k
+  rotate 5
+  copytruncate
+}
