@@ -1,5 +1,4 @@
 #!/bin/bash
-source ./venv/bin/activate
 source ./.env
 
 ansible-playbook -i $1, ./ansible/server_setup.yml

@@ -1,5 +1,4 @@
 #!/bin/bash
-source ../venv/bin/activate
 source ../.env
 
 vagrant up
