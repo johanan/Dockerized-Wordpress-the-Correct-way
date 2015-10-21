@@ -27,6 +27,3 @@
 
   - name: Set permissions
     file: path={{ work_dir }}/data/{{ site_name }}/wordpress/wp-content state=directory mode=0775 owner=www-data recurse=yes
-
-  - name: Copy over the data Dockerfile
-    template: src=Dockerfile.j2 dest={{ work_dir }}/data/Dockerfile

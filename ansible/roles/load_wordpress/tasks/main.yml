@@ -4,6 +4,3 @@
 
   - name: Move MySQL backup over
     unarchive: src=./backups/wp_backup.sql.tar.gz dest={{ work_dir }}
-
-  - name: Copy move SQL
-    template: src=move_sql_backup dest={{ work_dir }} mode=0755

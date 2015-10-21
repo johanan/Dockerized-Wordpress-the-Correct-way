@@ -2,9 +2,6 @@
   - name: Create Docker base directory
     file: path={{ work_dir }} state=directory
 
-  - name: Create Wordpress base directory
-    file: path=/var/www/html/{{ site_name }} state=directory
-
   - name: Copy docker-compose file
     template: src=docker-compose.j2 dest={{ work_dir }}/docker-compose.yml
 
@@ -15,10 +12,10 @@
     ufw: rule=allow port=443 proto=tcp
 
   - name: Create backup script
-    template: src=site-backup dest={{ work_dir }} mode=0755
+    template: src=site-backup.j2 dest={{ work_dir }}/site-backup mode=0755
 
   - name: Create correct default.templ for nginx
-    template: src=default.templ.j2 dest={{ work_dir}}/backend/default.templ
+    template: src=backend/default.templ.j2 dest={{ work_dir}}/backend/default.templ
 
   - name: Add site-upgrade
     template: src=site-upgrade.j2 dest={{ work_dir}}/site-upgrade mode=755
@@ -26,5 +23,14 @@
   - name: Add site-normal
     template: src=site-normal.j2 dest={{ work_dir}}/site-normal mode=755
 
+  - name: Make sure data directory exists
+    file: path={{ work_dir }}/data state=directory
+
+  - name: Copy over the data Dockerfile
+    template: src=data/Dockerfile.j2 dest={{ work_dir }}/data/Dockerfile
+
   - name: schedule backup to run weekly
     cron: name="site backup" minute="0" hour="2" weekday="1" job="{{ work_dir }}/site-backup" user="root"
+
+  - name: Copy move SQL
+    template: src=move_sql_backup.j2 dest={{ work_dir }}/move_sql_backup mode=0755
