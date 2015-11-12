@@ -34,4 +34,4 @@
       command: chdir={{ work_dir }} {{ work_dir }}/move_sql_backup
 
     - name: Load blog backup database
-      shell: "{{ work_dir }}/site-normal"
+      shell: docker exec $(docker-compose -f {{ work_dir }}/docker-compose.yml ps -q mysql) /load_db.sh

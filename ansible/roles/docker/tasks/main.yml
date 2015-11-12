@@ -1,9 +1,9 @@
 ---
   - name: Add repo from Docker
-    shell: curl -sSL https://get.docker.com/ubuntu/ | sudo sh creates=/usr/bin/docker
+    shell: curl -sSL https://get.docker.com/ | sudo sh creates=/usr/bin/docker
 
   - name: Install docker
-    apt: name=lxc-docker update-cache=yes
+    apt: name=docker-engine update-cache=yes
 
   - name: get setuptools
     apt: name=python-setuptools state=present

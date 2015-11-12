@@ -1,3 +1,3 @@
 #!/bin/bash
 docker exec -t $(docker-compose -f {{ work_dir }}/docker-compose.yml ps -q mysql) /backup.sh > /tmp/wp_backup.sql && tar -zcvf /tmp/wp_backup.sql.tar.gz -C /tmp wp_backup.sql
-docker run --rm --volumes-from $(docker-compose -f {{ work_dir }}/docker-compose.yml ps -q php) -v /tmp:/backup debian:jessie tar -zcvf /backup/site_backup.tar.gz /var/www/html/{{ site_name }}
+docker run --rm --volumes-from $(docker-compose -f {{ work_dir }}/docker-compose.yml ps -q php) -v /tmp:/backup debian:jessie tar -zcvf /backup/site_backup.tar.gz --directory=/var/www/html/{{ site_name }} wordpress
