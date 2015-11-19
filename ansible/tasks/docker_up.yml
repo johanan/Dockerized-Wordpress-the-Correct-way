@@ -1,4 +1,8 @@
 ---
+  - name: Copy wordpress for editing
+    command: "cp -R {{ work_dir }}/data/{{ site_name }}/ /var/www/html/"
+    when: edit|bool
+
   - name: Remove Wordpress
     file: path={{ work_dir }}/data/{{ site_name }} state=absent
 

@@ -9,8 +9,10 @@ mysql:
 
 data:
   #image: debian:jessie
-  #volumes:
-  #  - /var/www/html/{{ site_name }}:/var/www/html/{{ site_name}}
+  {% if edit|bool %}
+  volumes:
+    - /var/www/html/{{ site_name }}:/var/www/html/{{ site_name}}
+  {% endif %}
   build: ./data
 
 php:
